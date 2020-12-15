@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import {postKeyValueRequest} from "@/utils/api";
 
 export default {
   name: "Login",
@@ -27,7 +26,7 @@ export default {
     return{
       loginForm:{
         username:"admin",
-        password:"123"
+        password:"123",
       },
       checked:true,
       rules:{
@@ -41,9 +40,12 @@ export default {
     submitLogin(){
       this.$refs.loginForm.validate((validate) =>{
         if(validate){
-          postKeyValueRequest('doLogin',this.loginForm).then(resp=>{
+          this.postKeyValueRequest('/doLogin',this.loginForm).then(resp=>{
             if (resp){
-              alert(JSON.stringify(resp))
+              window.sessionStorage.setItem("user",JSON.stringify(resp.data));
+              //alert(JSON.stringify(resp))
+              this.$router.push("/home")
+
             }
           })
         }else {

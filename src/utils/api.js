@@ -14,6 +14,9 @@ axios.interceptors.response.use(success => {
         Message.error({message: success.data.msg})
         return;
     }
+    if (success.data.msg){
+        Message.success({message: success.data.msg})
+    }
     return success.data
 }, error => {
     if (error.response.status === 504 || error.response.status === 404) {
@@ -37,7 +40,6 @@ axios.interceptors.response.use(success => {
 let base = '';     //防止有一天要给所有请求价格前缀要一个一个去改，太麻烦
 // url:请求的地址   请求的参数：param
 export const postKeyValueRequest = (url, params) => {
-
     return axios({   //和ajax请求差不多
             method: 'post',
             url: `${base}${url}`,
@@ -56,4 +58,36 @@ export const postKeyValueRequest = (url, params) => {
             }
         }
     )
+}
+
+export const postRequest = (url, params) => {
+    return axios({
+        method: 'post',
+        url: `${base}${url}`,
+        data: params
+    })
+}
+
+export const putRequest = (url, params) => {
+    return axios({
+        method: 'put',
+        url: `${base}${url}`,
+        data: params
+    })
+}
+
+export const getRequest = (url, params) => {
+    return axios({
+        method: 'get',
+        url: `${base}${url}`,
+        data: params
+    })
+}
+
+export const deleteRequest = (url, params) => {
+    return axios({
+        method: 'delete',
+        url: `${base}${url}`,
+        data: params
+    })
 }
