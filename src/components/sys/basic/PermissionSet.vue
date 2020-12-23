@@ -1,12 +1,12 @@
 <template>
     <div>
-        人事信息统计
+        权限组
     </div>
 </template>
 
 <script>
     export default {
-        name: "StaPers"
+        name: "PermissionSet"
     }
 </script>
 

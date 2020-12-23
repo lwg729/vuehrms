@@ -1,12 +1,12 @@
 <template>
     <div>
-        综合信息统计
+        部门管理
     </div>
 </template>
 
 <script>
     export default {
-        name: "StaAll"
+        name: "DepManager"
     }
 </script>
 

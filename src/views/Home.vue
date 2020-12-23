@@ -48,7 +48,7 @@
                     <div v-if="this.$router.currentRoute.path==='/home'" class="homePage">
                         欢迎来到人事管理系统 !
                     </div>
-                    <router-view/>
+                    <router-view class="homeRouterView"/>
                 </el-main>
             </el-container>
         </el-container>
@@ -100,6 +100,10 @@
 
 
 <style>
+    .homeRouterView {
+        margin-top: 15px;
+    }
+
     .brand {
         font-size: 20px;
         font-family: 华文楷体;

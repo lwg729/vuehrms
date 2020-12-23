@@ -1,12 +1,12 @@
 <template>
     <div>
-        系统日志管理
+        职称管理
     </div>
 </template>
 
 <script>
     export default {
-        name: "SysLog"
+        name: "TitleManage"
     }
 </script>
 
