@@ -20,7 +20,7 @@
                     @selection-change="handleSelectionChange"
                     size="small"
                     stripe
-                    style="width: 70%">
+                    style="width: 80%">
                 <el-table-column
                         type="selection"
                         width="55">
@@ -61,8 +61,8 @@
         <el-dialog
                 title="修改职位"
                 :visible.sync="dialogVisible"
-                width="29%">
-            <div>
+                width="29%" center>
+            <div align="center">
                 <el-tag>职位名称</el-tag>
                 <el-input class="updatePosInput" size="small" v-model="updatePos.name"></el-input>
             </div>
@@ -109,7 +109,7 @@
                     this.multipleSelection.forEach(item => {
                         ids += 'ids=' + item.id + '&';
                     })
-                    this.deleteRequest("/system/config/pos/" + ids).then(resp => {
+                    this.deleteRequest("/system/basic/pos/" + ids).then(resp => {
                         if (resp) {
                             this.initPositions();
                         }
@@ -122,7 +122,7 @@
                 });
             },
             initPositions() {
-                this.getRequest("/system/config/pos/").then(resp => {
+                this.getRequest("/system/basic/pos/").then(resp => {
                     if (resp) {
                         this.positions = resp;
                     }
@@ -130,7 +130,7 @@
             },
             addPosition() {
                 if (this.pos.name) {
-                    this.postRequest("/system/config/pos/", this.pos).then(resp => {
+                    this.postRequest("/system/basic/pos/", this.pos).then(resp => {
                         if (resp) {
                             this.initPositions();
                             this.pos.name = '';
@@ -165,7 +165,7 @@
                 });
             },
             doUpdate() {
-                this.putRequest("/system/config/pos/", this.updatePos).then(resp => {
+                this.putRequest("/system/basic/pos/", this.updatePos).then(resp => {
                     if (resp) {
                         this.initPositions();
                         this.updatePos.name = '';
