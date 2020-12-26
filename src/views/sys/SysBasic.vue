@@ -21,7 +21,7 @@
         name: "SysBasic",
         data() {
             return {
-                activeName: 'joblevelmanage',
+                activeName: 'permissionset',
             }
         },
         components: {

@@ -27,7 +27,12 @@
                     :data="jls"
                     border
                     stripe
+                    @selection-change="handleSelectionChange"
                     style="width: 80%">
+                <el-table-column
+                        type="selection"
+                        width="55">
+                </el-table-column>
                 <el-table-column
                         prop="id"
                         label="编号"
@@ -49,7 +54,7 @@
                         width="150">
                 </el-table-column>
                 <el-table-column
-                        label="是否启用">
+                        label="是否启用" width="200px">
                     <template slot-scope="scope">
                         <el-tag type="success" v-if="scope.row.enabled">已启用</el-tag>
                         <el-tag type="danger" v-else>未启用</el-tag>
@@ -63,6 +68,9 @@
                     </template>
                 </el-table-column>
             </el-table>
+            <el-button size="small" style="margin-top: 10px;float: left" type="danger"
+                       :disabled="this.multipleSelection.length===0" @click="deleteMany">批量删除
+            </el-button>
         </div>
         <el-dialog
                 title="提示"
@@ -72,7 +80,7 @@
                 <table class="updateJlInput">
                     <tr>
                         <td>
-                            <el-tag>职称名</el-tag>
+                            <el-tag style="margin-right: 5px">职称名称</el-tag>
                         </td>
                         <td>
                             <el-input size="small" v-model="updateJl.name"></el-input>
@@ -84,7 +92,7 @@
                         </td>
                         <td>
                             <el-select v-model="updateJl.titleLevel" placeholder="职称等级" size="small"
-                                       style="margin-left: 5px;margin-right: 5px;" >
+                                       style="margin-right: 5px;">
                                 <el-option
                                         v-for="item in titleLevels"
                                         :key="item"
@@ -102,6 +110,7 @@
                             <el-switch
                                     style="display: block"
                                     v-model="updateJl.enabled"
+                                    align="center"
                                     active-text="启用"
                                     inactive-text="禁用">
                             </el-switch>
@@ -124,6 +133,8 @@
         data() {
             return {
                 dialogVisible: false,
+                multipleSelection: [],
+                /*用户更新拷贝*/
                 updateJl: {
                     name: '',
                     titleLevel: '',
@@ -132,7 +143,6 @@
                 jl: {
                     name: '',
                     titleLevel: '',
-                    enabled: true,
                 },
                 jls: [],
                 titleLevels: [
@@ -191,7 +201,7 @@
                 });
             },
             showEditView(data) {
-                Object.assign(this.updateJl,data);
+                Object.assign(this.updateJl, data);
                 this.dialogVisible = true;
             },
             doUpdate() {
@@ -202,6 +212,31 @@
                     }
                 })
             },
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+            },
+            deleteMany() {
+                this.$confirm('此操作将永久删除[' + this.multipleSelection.length + ']条记录, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let ids = '?';
+                    this.multipleSelection.forEach(item => {
+                        ids += 'ids=' + item.id + '&';
+                    })
+                    this.deleteRequest("/system/basic/jobLevel/"+ids).then(resp=>{
+                        if (resp){
+                            this.initJls();
+                        }
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            }
         }
     }
 </script>
