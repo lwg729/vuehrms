@@ -1,6 +1,7 @@
 import axios from 'axios'
 //单独引入 此时调用方法为 Message(options)。我们也为每个 type 定义了各自的方法，如 Message.success(options)。并且可以调用 Message.closeAll() 手动关闭所有实例。
 import {Message} from "element-ui";
+import router from '../router'
 
 //处理响应信息的响应拦截器
 /*上面已经导入了axios的对象了，这个对象里面有个响应的拦截器axios.interceptors.response.use(),use里面的data是服务端响应给你的数据，
@@ -24,7 +25,8 @@ axios.interceptors.response.use(success => {
     } else if (error.response.status === 403) {
         Message.error({message: '权限不足，清联系管理员'})
     } else if (error.response.status === 401) {
-        Message.error({message: '尚未登录'})
+        Message.error({message: '尚未登录，请重新登录'})
+        router.replace('/');
     } else {
         //服务端返回的错误信息
         if (error.response.data.msg) {

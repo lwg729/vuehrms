@@ -20,7 +20,7 @@ Vue.prototype.putRequest = putRequest;
 Vue.prototype.deleteRequest = deleteRequest;
 
 Vue.config.productionTip = false
-Vue.use(ElementUI);
+Vue.use(ElementUI,{size:"small"});
 
 router.beforeEach((to,from,next)=>{
     if (to.path==='/'){
