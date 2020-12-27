@@ -17,10 +17,9 @@
                                        type="text"></el-button>
                             <el-tree
                                     show-checkbox
+                                    node-key="id"
+                                    :default-checked-keys="selectMenusByRid"
                                     :data="allMenus" :props="defaultProps"></el-tree>
-                        </div>
-                        <div>
-
                         </div>
                     </el-card>
                 </el-collapse-item>
@@ -43,7 +42,8 @@
                     children: 'children',
                     label: 'name'
                 },
-                allMenus:[],
+                allMenus: [],
+                selectMenusByRid: []
             }
         },
         mounted() {
@@ -57,16 +57,24 @@
                     }
                 })
             },
-            initAllMenus(){
-              this.getRequest("/system/basic/perSet/menus").then(resp=>{
-                  if (resp){
-                      this.allMenus=resp;
-                  }
-              })
+            initAllMenus() {
+                this.getRequest("/system/basic/perSet/menus").then(resp => {
+                    if (resp) {
+                        this.allMenus = resp;
+                    }
+                })
             },
-            change(name){
-                if (name){
+            initSelMidByRid(rid) {
+                this.getRequest("/system/basic/perSet/mids/" + rid).then(resp => {
+                    if (resp) {
+                        this.selectMenusByRid = resp;
+                    }
+                })
+            },
+            change(rid) {
+                if (rid) {
                     this.initAllMenus();
+                    this.initSelMidByRid(rid)
                 }
             }
         }
@@ -87,7 +95,6 @@
         margin-top: 10px;
         width: 700px
     }
-
 
 
 </style>
