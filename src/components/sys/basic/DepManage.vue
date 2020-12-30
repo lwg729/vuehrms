@@ -1,17 +1,38 @@
 <template>
     <div style="width: 500px">
         <el-input
-                placeholder="输入关键字进行过滤"
+                placeholder="请输入部门名称搜索部门..."
                 prefix-icon="el-icon-search"
                 v-model="filterText">
         </el-input>
 
         <el-tree style="margin-top: 10px"
-                class="filter-tree"
-                :data="deps"
-                :props="defaultProps"
-                :filter-node-method="filterNode"
-                ref="tree">
+                 class="filter-tree"
+                 :expand-on-click-node="false"
+                 :data="deps"
+                 :props="defaultProps"
+                 :filter-node-method="filterNode"
+                 ref="tree">
+            <span class="custom-tree-node" style="display: flex;justify-content: space-between;width: 100%"
+                  slot-scope="{ node, data }">
+                <span>{{ data.name }}</span>
+                    <span>
+                      <el-button
+                              type="primary"
+                              size="mini"
+                              class="depBtn"
+                              @click="() => doAddDep(data)">
+                        添加部门
+                      </el-button>
+                      <el-button
+                              type="danger"
+                              size="mini"
+                              class="depBtn"
+                              @click="() => doDeleteDep(data)">
+                        删除部门
+                      </el-button>
+                    </span>
+             </span>
         </el-tree>
     </div>
 </template>
@@ -47,12 +68,20 @@
             },
             filterNode(value, data) {
                 if (!value) return true;
-                return data.label.indexOf(value) !== -1;
+                return data.name.indexOf(value) !== -1;
+            },
+            doAddDep(data){
+                console.log(data)
+            },
+            doDeleteDep(data){
+                console.log(data)
             }
         }
     }
 </script>
 
 <style>
-
+    .depBtn {
+        padding: 5px;
+    }
 </style>
